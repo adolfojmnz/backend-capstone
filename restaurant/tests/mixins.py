@@ -14,6 +14,6 @@ class CreateMenuItemsMixin:
                 title = self.items[idx]['title'],
                 price = self.items[idx]['price'],
             )
-            if self.items[idx].get('inventory'):
+            if self.items[idx].get('inventory') is not None:
                 item.inventory = self.items[idx].get('inventory')
             item.save()
