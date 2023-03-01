@@ -1,5 +1,8 @@
 from ..models import Menu
 
+import requests
+
+
 class CreateMenuItemsMixin:
     items = {
         1: {'title': 'Icecream', 'price': 5.00, 'inventory': 7},
@@ -17,3 +20,26 @@ class CreateMenuItemsMixin:
             if self.items[idx].get('inventory') is not None:
                 item.inventory = self.items[idx].get('inventory')
             item.save()
+
+
+class UserMixin:
+
+    def create_user(self, username, password):
+        url = 'http://127.0.0.1:8000/auth/users/'
+        data = {
+            'username': username,
+            'password': password,
+        }
+        return requests.post(url, data=data)
+
+    def get_token(self, username, password):
+        url = 'http://127.0.0.1:8000/api/token/login/'
+        data = {
+            'username': username,
+            'password': password,
+        }
+        return requests.post(url, data=data).json().get('access')
+
+    def get_auth_header(self, token):
+        return {'Authorization': f'JWT {token}'}
+    
