@@ -1,1 +1,1 @@
-from .models_test import MenuTest
+from .models_test import BookingTest, MenuTest
