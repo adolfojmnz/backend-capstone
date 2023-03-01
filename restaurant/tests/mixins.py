@@ -1,15 +1,43 @@
-from ..models import Menu
+from ..models import Booking, Menu
 
+from datetime import datetime, timedelta
+from random import randint
 import requests
 
 
+BOOKINGS = {
+    1: {'name': 'Vill'},
+    2: {'name': 'Jani', 'no_og_guests': randint(1, 11)},
+    3: {'name': 'Niilo', 'no_og_guests': randint(1, 11)},
+    4: {'name': 'Markus', 'no_og_guests': randint(1, 11)},
+}
+
+MENU_ITEMS = {
+    1: {'title': 'ApplePie', 'price': 13.78},
+    2: {'title': 'Latte', 'price': 3.99, 'inventory': randint(0, 11)},
+    3: {'title': 'Icecream', 'price': 5.00, 'inventory': randint(0, 11)},
+    4: {'title': 'IrishCoffe', 'price': 7.89, 'inventory': randint(0, 11)},
+}
+
+
+class CreateBookingsMixin:
+    bookings = BOOKINGS
+    
+    def create_bookings(self):
+        for idx in self.bookings.keys():
+            booking = Booking.objects.create(
+                name = self.bookings[idx]['name'],
+            )
+            if self.bookings[idx].get('no_of_guests') is not None:
+                booking.no_of_guests = self.bookings[idx]['no_of_guests'],
+            if self.bookings[idx].get('booking_date') is not None:
+                print(self.bookings[idx]['booking_date'])
+                booking.booking_date = self.bookings[idx]['booking_date'],
+            booking.save()
+
+
 class CreateMenuItemsMixin:
-    items = {
-        1: {'title': 'Icecream', 'price': 5.00, 'inventory': 7},
-        2: {'title': 'IrishCoffe', 'price': 7.89, 'inventory': 13},
-        3: {'title': 'Latte', 'price': 3.99, 'inventory': 0},
-        4: {'title': 'ApplePie', 'price': 13.78},
-    }
+    items = MENU_ITEMS
 
     def create_menu_items(self):
         for idx in self.items.keys():
