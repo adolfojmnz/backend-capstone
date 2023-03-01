@@ -36,6 +36,3 @@ class BookingTest(CreateBookingsMixin, TestCase):
             self.assertEqual(Booking.objects.get(pk=idx).no_of_guests, self.bookings[idx]['no_of_guests'])
             self.assertEqual(Booking.objects.get(pk=idx).booking_date, self.bookings[idx]['booking_date'])
             
-
-
-
