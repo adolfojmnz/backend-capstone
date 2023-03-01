@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Menu, Booking
+from restaurant.models import Menu, Booking
 
 
 class BookingSerializer(serializers.ModelSerializer):
