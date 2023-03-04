@@ -68,6 +68,17 @@ class SingleBookingViewTest(SetUpMixin, UserMixin, SingleBookingMixin, TestCase)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, serializer.data)
 
+    def test_update(self):
+        data = json.dumps({'name': 'will', 'no_of_guests': 6, 'booking_date': '2023-03-06'})
+        response = self.client.put(
+            reverse('api:booking-detail', kwargs={'pk': self.booking.pk}),
+            data = data,
+            content_type = 'application/json',
+        )
+        serializer = BookingSerializer(Booking.objects.get(pk=self.booking.pk))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, serializer.data)
+
 
 class MenuItemViewTest(SetUpMixin, UserMixin, MenuItemMixin, TestCase):
 
