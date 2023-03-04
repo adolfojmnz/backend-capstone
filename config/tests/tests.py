@@ -51,6 +51,12 @@ class SingleBookingViewTest(SetUpMixin, UserMixin, SingleBookingMixin, TestCase)
         self.create_booking()
         return super().setUp()
     
+    def test_retrieve(self):
+        response = self.client.get(reverse('api:booking-detail', kwargs={'pk': self.booking.pk}))
+        serializer = BookingSerializer(Booking.objects.get(pk=self.booking.pk))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, serializer.data)
+
 
 class MenuItemViewTest(SetUpMixin, UserMixin, MenuItemMixin, TestCase):
 
