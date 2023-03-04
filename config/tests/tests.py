@@ -64,4 +64,10 @@ class SingleMenuItemViewTest(SetUpMixin, UserMixin, SingleMenuItemMixin, TestCas
         serializer = MenuSerializer(Menu.objects.get(pk=self.menu_item.pk))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, serializer.data)
+    
+    def test_delete(self):
+        response = self.client.delete(reverse('api:menu-detail', kwargs={'pk': self.menu_item.pk}))
+        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.data, None)
+        self.assertEqual(Menu.objects.filter(pk=self.menu_item.pk).exists(), False)
 
