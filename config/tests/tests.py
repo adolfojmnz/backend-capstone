@@ -27,7 +27,7 @@ class BookingTest(SetUpMixin, UserMixin, BookingMixin, TestCase):
         self.create_bookings()
         return super().setUp()
 
-    def test_get(self):
+    def test_list(self):
         response = self.client.get(reverse('api:bookings')) 
         serializer = BookingSerializer(Booking.objects.all(), many=True)
         self.assertEqual(response.status_code, 200)
