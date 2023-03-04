@@ -77,6 +77,17 @@ class SingleMenuItemViewTest(SetUpMixin, UserMixin, SingleMenuItemMixin, TestCas
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, serializer.data)
     
+    def test_update(self):
+        data = json.dumps({'title': 'Apple Juice', 'price': 3.85, 'inventory': 7})
+        response = self.client.put(
+            reverse('api:menu-detail', kwargs={'pk': self.menu_item.pk}),
+            data = data,
+            content_type = 'application/json',
+        )
+        serializer = MenuSerializer(Menu.objects.get(pk=self.menu_item.pk))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, serializer.data)
+    
     def test_delete(self):
         response = self.client.delete(reverse('api:menu-detail', kwargs={'pk': self.menu_item.pk}))
         self.assertEqual(response.status_code, 204)
