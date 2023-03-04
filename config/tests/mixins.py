@@ -1,8 +1,7 @@
-from ..models import Booking, Menu
+from django.test import Client
+from restaurant.models import Booking, Menu
 
-from datetime import datetime, timedelta
 from random import randint
-import requests
 
 
 BOOKINGS = {
@@ -14,13 +13,35 @@ BOOKINGS = {
 
 MENU_ITEMS = {
     1: {'title': 'ApplePie', 'price': 13.78},
-    2: {'title': 'Latte', 'price': 3.99, 'inventory': randint(0, 11)},
+    2: {'title': 'VanillaLatte', 'price': 3.99, 'inventory': randint(0, 11)},
     3: {'title': 'Icecream', 'price': 5.00, 'inventory': randint(0, 11)},
     4: {'title': 'IrishCoffe', 'price': 7.89, 'inventory': randint(0, 11)},
 }
 
 
-class CreateBookingsMixin:
+class UserMixin:
+
+    def create_user(self, username, password):
+        url = 'http://127.0.0.1:8000/auth/users/'
+        data = {
+            'username': username,
+            'password': password,
+        }
+        return Client().post(url, data=data)
+
+    def get_token(self, username, password):
+        url = 'http://127.0.0.1:8000/api/token/login/'
+        data = {
+            'username': username,
+            'password': password,
+        }
+        return Client().post(url, data=data).data.get('access')
+
+    def get_auth_header(self, token):
+        return {'Authorization': f'JWT {token}'}
+    
+
+class BookingMixin:
     bookings = BOOKINGS
     
     def create_bookings(self):
@@ -36,7 +57,7 @@ class CreateBookingsMixin:
             booking.save()
 
 
-class CreateMenuItemsMixin:
+class MenuItemMixin:
     items = MENU_ITEMS
 
     def create_menu_items(self):
@@ -50,24 +71,15 @@ class CreateMenuItemsMixin:
             item.save()
 
 
-class UserMixin:
+class SingleMenuItemMixin:
+    item = MENU_ITEMS.get(1)
 
-    def create_user(self, username, password):
-        url = 'http://127.0.0.1:8000/auth/users/'
-        data = {
-            'username': username,
-            'password': password,
-        }
-        return requests.post(url, data=data)
-
-    def get_token(self, username, password):
-        url = 'http://127.0.0.1:8000/api/token/login/'
-        data = {
-            'username': username,
-            'password': password,
-        }
-        return requests.post(url, data=data).json().get('access')
-
-    def get_auth_header(self, token):
-        return {'Authorization': f'JWT {token}'}
-    
+    def create_menu_item(self):
+        item = Menu.objects.create(
+            title = self.item['title'],
+            price = self.item['price'],
+        )
+        if self.item.get('inventory') is not None:
+            item.inventory = self.item.get('inventory')
+        item.save()
+        self.menu_item = item
