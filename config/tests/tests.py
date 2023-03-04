@@ -21,7 +21,7 @@ class SetUpMixin:
         self.client = Client(HTTP_AUTHORIZATION=f'JWT {self.token}')
 
 
-class BookingTest(SetUpMixin, UserMixin, BookingMixin, TestCase):
+class BookingViewTest(SetUpMixin, UserMixin, BookingMixin, TestCase):
 
     def setUp(self):
         self.create_bookings()
