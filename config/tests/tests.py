@@ -51,3 +51,17 @@ class MenuItemViewTest(SetUpMixin, UserMixin, MenuItemMixin, TestCase):
         serializer = MenuSerializer(Menu.objects.get(title='latte'))
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data, serializer.data)
+    
+
+class SingleMenuItemViewTest(SetUpMixin, UserMixin, SingleMenuItemMixin, TestCase):
+
+    def setUp(self):
+        self.create_menu_item()
+        return super().setUp()
+
+    def test_retrieve(self):
+        response = self.client.get(reverse('api:menu-detail', kwargs={'pk': self.menu_item.pk}))
+        serializer = MenuSerializer(Menu.objects.get(pk=self.menu_item.pk))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, serializer.data)
+
