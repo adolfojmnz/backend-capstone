@@ -39,11 +39,11 @@ class UserMixin:
 
     def get_auth_header(self, token):
         return {'Authorization': f'JWT {token}'}
-    
+
 
 class BookingMixin:
     bookings = BOOKINGS
-    
+
     def create_bookings(self):
         for idx in self.bookings.keys():
             booking = Booking.objects.create(

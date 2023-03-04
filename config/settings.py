@@ -68,9 +68,9 @@ DATABASES = {
         'PORT': '3306',
         'USER': 'admin',
         'PASSWORD': '',
-        'OPTIONS': {   
+        'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        }, 
+        },
     },
 }
 
