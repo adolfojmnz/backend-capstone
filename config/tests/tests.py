@@ -4,7 +4,11 @@ import json
 
 from api.serializers import MenuSerializer, BookingSerializer
 from restaurant.models import Menu, Booking
-from config.tests.mixins import UserMixin, MenuItemMixin, SingleMenuItemMixin, BookingMixin
+from config.tests.mixins import (
+    UserMixin,
+    BookingMixin, SingleBookingMixin,
+    MenuItemMixin, SingleMenuItemMixin,
+)
 
 
 class SetUpMixin:
@@ -40,6 +44,13 @@ class BookingViewTest(SetUpMixin, UserMixin, BookingMixin, TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertEqual(response.data, serializer.data)
 
+
+class SingleBookingViewTest(SetUpMixin, UserMixin, SingleBookingMixin, TestCase):
+
+    def setUp(self):
+        self.create_booking()
+        return super().setUp()
+    
 
 class MenuItemViewTest(SetUpMixin, UserMixin, MenuItemMixin, TestCase):
 
@@ -100,4 +111,3 @@ class SingleMenuItemViewTest(SetUpMixin, UserMixin, SingleMenuItemMixin, TestCas
         self.assertEqual(response.status_code, 204)
         self.assertEqual(response.data, None)
         self.assertEqual(Menu.objects.filter(pk=self.menu_item.pk).exists(), False)
-
