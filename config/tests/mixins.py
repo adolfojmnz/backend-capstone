@@ -57,6 +57,21 @@ class BookingMixin:
             booking.save()
 
 
+class SingleBookingMixin:
+    booking = BOOKINGS.get(1)
+
+    def create_booking(self):
+        booking = Booking.objects.create(
+            name = self.booking.get('name'),
+        )
+        if self.booking.get('no_of_guests') is not None:
+            booking.no_of_guests = self.booking.get('no_of_guests')
+        if self.booking.get('booking_date') is not None:
+            booking.booking_date = self.booking.get('boooking_date')
+        booking.save()
+        self.booking = booking
+
+
 class MenuItemMixin:
     items = MENU_ITEMS
 
