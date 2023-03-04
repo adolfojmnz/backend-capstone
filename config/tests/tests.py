@@ -32,6 +32,13 @@ class BookingTest(SetUpMixin, UserMixin, BookingMixin, TestCase):
         serializer = BookingSerializer(Booking.objects.all(), many=True)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, serializer.data)
+    
+    def test_create(self):
+        data = {'name': 'pete', 'no_of_guests': 4, 'booking_date': '2023-03-04'}
+        response = self.client.post(reverse('api:bookings'), data=data)
+        serializer = BookingSerializer(Booking.objects.get(name='pete'))
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.data, serializer.data)
 
 
 class MenuItemViewTest(SetUpMixin, UserMixin, MenuItemMixin, TestCase):
