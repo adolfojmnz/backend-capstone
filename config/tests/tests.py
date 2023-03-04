@@ -1,5 +1,6 @@
 from django.test import Client, TestCase
 from django.urls import reverse
+import json
 
 from api.serializers import MenuSerializer, BookingSerializer
 from restaurant.models import Menu, Booking
@@ -61,6 +62,17 @@ class SingleMenuItemViewTest(SetUpMixin, UserMixin, SingleMenuItemMixin, TestCas
 
     def test_retrieve(self):
         response = self.client.get(reverse('api:menu-detail', kwargs={'pk': self.menu_item.pk}))
+        serializer = MenuSerializer(Menu.objects.get(pk=self.menu_item.pk))
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, serializer.data)
+    
+    def test_partial_update(self):
+        data = json.dumps({'price': 3.99, 'inventory': 3})
+        response = self.client.patch(
+            reverse('api:menu-detail', kwargs={'pk': self.menu_item.pk}),
+            data = data,
+            content_type = 'application/json',
+        )
         serializer = MenuSerializer(Menu.objects.get(pk=self.menu_item.pk))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, serializer.data)
