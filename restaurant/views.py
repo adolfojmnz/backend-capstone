@@ -1,7 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import ListView
 from django.urls import reverse
-import requests, json, os
+import requests, json
 
 import environ
 
@@ -34,6 +33,7 @@ def menu(request):
     headers = get_auth_header()
     response = requests.get(url, headers=headers)
     return render(request, 'restaurant/menu.html', context={'menu_items': json.loads(response.text)})
+
 
 def menu_item(request, pk):
     url = f"http://127.0.0.1:8000{reverse('api:menu-detail', kwargs={'pk': pk})}"
