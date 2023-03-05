@@ -10,6 +10,7 @@ djangorestframework-simplejwt = "*"
 djoser = "*"
 mysqlclient = "*"
 requests = "*"
+django-environ = "*"
 
 [dev-packages]
 
