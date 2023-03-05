@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils import timezone
 import requests, json
 
 import environ
@@ -40,3 +41,14 @@ def menu_item(request, pk):
     headers = get_auth_header()
     response = requests.get(url, headers=headers)
     return render(request, 'restaurant/menu_item.html', context={'menu_item': json.loads(response.text)})
+
+
+def bookings(request):
+    if request.GET.get('date') is None:
+        date = timezone.now().date()
+    else:
+        date = request.GET.get('date')
+    url = f"http://127.0.0.1:8000{reverse('api:bookings')}?date={date}"
+    headers = get_auth_header()
+    response = requests.get(url, headers=headers)
+    return render(request, 'restaurant/bookings.html', context={'bookings': response.text})
