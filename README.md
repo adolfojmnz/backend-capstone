@@ -38,7 +38,8 @@ DATABASES = {
     },
 }
 ```
-<aside>💡 Change those settings according to your local setup</aside> <br>
+<aside>💡 Change those settings according to your local setup</aside>
+<br>
 
 Apply the migrations
 ```jsx
@@ -135,8 +136,9 @@ http://127.0.0.1:8000/auth/users/
 | --- | --- | --- | --- |
 | GET | Retrieves all users | 200 | No |
 | POST | Creates a user | 201 | No |
-<aside>💡 Please refer to the [Djoser documentation](https://djoser.readthedocs.io/en/latest/getting_started.html#available-endpoints) for further use on these endpoints.</aside>
-<br>
+
+💡 Please refer to the [Djoser documentation](https://djoser.readthedocs.io/en/latest/getting_started.html#available-endpoints) for further usage on these endpoints.
+<br> <br>
 
 ### Endpoints for `simplejwt` app
 ```jsx
