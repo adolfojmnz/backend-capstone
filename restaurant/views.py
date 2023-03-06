@@ -13,7 +13,7 @@ env = environ.Env()
 environ.Env.read_env()
 
 
-def get_auth_header():
+def get_token():
     url = 'http://127.0.0.1:8000/api/token/login/'
     data = {
         'username': env('USERNAME'),
@@ -21,7 +21,10 @@ def get_auth_header():
     }
     response = requests.post(url, data=data)
     response_dict = json.loads(response.text)
-    token = response_dict.get('access')
+    return response_dict.get('access')
+
+def get_auth_header():
+    token =get_token()
     return {'Authorization': f'JWT {token}'}
 
 
@@ -52,8 +55,9 @@ class Book(View):
     template_name = 'restaurant/book.html'
 
     def get(self, request):
+        token = get_token()
         form = self.form_class()
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form, 'token': token})
 
     def get_data_from_form(self, form):
         data = {
@@ -64,6 +68,7 @@ class Book(View):
         return data
 
     def post(self, request):
+        token = get_token()
         form = self.form_class(request.POST)
         if form.is_valid():
             data = self.get_data_from_form(form)
@@ -71,8 +76,10 @@ class Book(View):
             url = f"http://127.0.0.1:8000{reverse('api:bookings')}"
             response = requests.post(url, data=data, headers=headers)
             if response.status_code == 201:
-                return render(request, 'restaurant/book.html', context={'form': BookingForm()})
-        return render(request, 'restaurant/book.html', context={'form': form})
+                context = {'form': BookingForm(), 'token': token}
+                return render(request, 'restaurant/book.html', context)
+        context = {'form': form, 'token': token}
+        return render(request, 'restaurant/book.html', )
 
 
 def bookings(request):
