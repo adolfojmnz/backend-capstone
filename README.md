@@ -184,4 +184,4 @@ Destroying test database for alias 'default'...
 ```
 <br>
 
-<aside>💡 These tests intrinsically test the `restaurant` models by creating entries on its database through the ORM of Django.</aside>
+<aside>💡 These tests intrinsically test the `restaurant` models by creating entries on its database through the Django ORM.</aside>
