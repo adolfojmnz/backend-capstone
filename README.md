@@ -38,7 +38,7 @@ DATABASES = {
     },
 }
 ```
-<aside>💡 Change those settings according to your local setup</aside>
+💡 Change those settings according to your local setup
 <br>
 
 Apply the migrations
