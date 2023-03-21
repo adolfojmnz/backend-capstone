@@ -71,7 +71,7 @@ Each endpoint requires a SimpleJWT Token for authorization. Pass the token in th
 ```
 <br>
 
-In Insomnia, added the token as follows
+In Insomnia, add the token as follows
 
 ![Untitled](assets/insomnia.png)
 <br>
@@ -161,7 +161,7 @@ http://127.0.0.1:8000/api/token/refresh/
 <br>
 
 # Testing
-There are a total of 12 tests for each API endpoint and each of its allowed HTTP methods.
+There are a total of 12 tests to ensure that each API endpoint and each of its allowed HTTP methods work properly.
 <br>
 
 Run the tests
