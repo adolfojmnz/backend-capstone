@@ -1,5 +1,5 @@
 # Description
-This is the final project for the Bakend Developer Capstone Course of the Meta Backend Developer Professional Certificate on Coursera.
+This is the final assignment for the Bakend Developer Capstone Course of the Meta Backend Developer Professional Certificate on Coursera.
 <br> <br>
 
 # Project Structure
